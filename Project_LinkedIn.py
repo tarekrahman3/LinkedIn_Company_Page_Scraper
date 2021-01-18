@@ -22,6 +22,17 @@ driver=webdriver.Chrome(options=options, executable_path='/home/practice_environ
 
 driver.get('https://www.linkedin.com/home')
 time.sleep(4)
+
+
+last_height = driver.execute_script('return document.body.scrollHeight')
+for i in range(3):
+    driver.execute_script('window.scrollTo(0, document.body.scrollHeight);')
+    time.sleep(5)
+    new_height = driver.execute_script('return document.body.scrollHeight')
+    last_height = new_height
+
+
+
 try:
 	sign_in_button=driver.find_element_by_xpath("//a[@class='nav__button-secondary']")
 	sign_in_button.click()
