@@ -20,17 +20,19 @@ options.add_argument("--start-maximized")
 options.add_argument('--ignore-certificate-errors')
 options.add_argument("user-agent=DN")
 options.add_experimental_option("excludeSwitches", ["enable-automation"])
+options.add_argument("--disable-blink-features")
+options.add_argument("--disable-blink-features=AutomationControlled")
 options.add_experimental_option('useAutomationExtension', False)
-options.add_argument('user-data-dir=Profile')
-col0=[]
-col1=[]
-col2=[]
-col3=[]
-col4=[]
-col5=[]
-driver = webdriver.Chrome(options=options, executable_path='./chromedriver')
+options.add_argument('user-data-dir=HeraParvin')
+
+
+driver = webdriver.Chrome(options=options, executable_path='chromedriver')
+driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
+driver.execute_cdp_cmd('Network.setUserAgentOverride', {"userAgent": 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.53 Safari/537.36'})
+print(driver.execute_script("return navigator.userAgent;"))
+
 driver.get('http://linkedin.com')
-input(':Enter to Continue:')
+input('::')
 stealth(
     driver,
     languages=["en-US", "en"],
@@ -40,8 +42,13 @@ stealth(
     renderer="Intel Iris OpenGL Engine",
     fix_hairline=True,
     )
-
-
+col0_5=[]
+col0=[]
+col1=[]
+col2=[]
+col3=[]
+col4=[]
+col5=[]
 df = pd.read_csv('import.csv', header=0)
 links = df.links.to_list()
 
@@ -49,6 +56,10 @@ for i in links:
 	col0.append(i)
 	driver.get(i+'/about')
 	time.sleep(time_array[random.randrange(len(time_array))])
+	try:
+		title=driver.find_element_by_xpath('//h1/span').text
+	except:
+		title=''
 
 	try:	
 		about = driver.find_element_by_xpath('//p[contains(@class,"break-words white")]').text
@@ -75,7 +86,8 @@ for i in links:
 		ind_loc_fol = li
 	except:
 		ind_loc_fol = ''
-	print(f"{links.index(i)}|{website}|{employees}|{followers}|{ind_loc_fol}")
+	print(f"{links.index(i)}|{title} | {website}|{employees}|{followers}|{ind_loc_fol}")
+	col0_5.append(title)
 	col1.append(about)
 	col2.append(website)
 	col3.append(employees)
@@ -84,6 +96,7 @@ for i in links:
 	#time.sleep(time_array[random.randrange(len(time_array))])
 driver.quit()
 data = {'source': col0,
+'title':col0_5,
 'about': col1,
 'website':col2,
 'employees': col3,
