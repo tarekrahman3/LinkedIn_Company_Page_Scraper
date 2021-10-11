@@ -1,5 +1,5 @@
-const LinkedIn_UserName = 'md.tarek00009@gmail.com'
-const LinkedIn_Password = 'D0ntforgetme'
+const LinkedIn_UserName = ''
+const LinkedIn_Password = ''
 const puppeteer = require('puppeteer');
 const fs = require('fs')
 
