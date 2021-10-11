@@ -41,7 +41,8 @@ for index, url in enumerate(urls):
 	out.append({
 		'source':url,
 		'title':COMPANY_PAGE.title(),
-		'website':COMPANY_PAGE.website()
+		'website':COMPANY_PAGE.website(),
+		'about':COMPANY_PAGE.about()
 		})
 	print(f"{index} | {out[-1]['title']} | {out[-1]['website']}")
 
