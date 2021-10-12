@@ -12,21 +12,20 @@ async function main () {
   const browser = await puppeteer.launch();
   const page = await browser.newPage()
   page.setViewport({ width: 1024, height: 720 });
-  json_file = []
+  const json_file = []
   if (await login(page) == false) {
     console.log('login failed\naborting all process')
     await page.screenshot({ path: 'login_failure.png' });
     await browser.close();
   };
-  for (var i=0;i<urls.length;i++) {
+  for (var i=0;i<urls.length;i++){
     let url = 'https://'+ urls[i] + '/about/'
     await visit (page, url)
     let contents = await parse(page);
     json_file.push({'url':url, ...contents})
     console.log(i," | ",{'url':url, ...contents})
     await new Promise(r => setTimeout(r, 4000));
-  }
-
+  };
   fs.writeFileSync('company_page_data_export.json', JSON.stringify(json_file, null, 2));
   await browser.close();
 };
@@ -55,7 +54,8 @@ async function parse(page) {
 };
 
 async function visit (page, url) {
-  await page.goto(url, { waitUntil: 'networkidle2' });
+  try{await page.goto(url, { waitUntil: 'networkidle2' });}
+  catch{}
 };
 
 async function login (page) {
