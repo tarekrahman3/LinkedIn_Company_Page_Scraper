@@ -18,7 +18,7 @@ async function main () {
     await page.screenshot({ path: 'login_failure.png' });
     await browser.close();
   };
-  for (var i=0;i<urls.length;i++){
+  for (var i=0;i<=urls.length;i++){
     let url = 'https://'+ urls[i] + '/about/'
     await visit (page, url)
     let contents = await parse(page);
