@@ -11,14 +11,14 @@ urls = [
 async function main () {
   const browser = await puppeteer.launch();
   const page = await browser.newPage()
-  page.setViewport({ width: 1024, height: 720 });
+  page.setViewport({width: 1024, height: 720});
   const json_file = []
   if (await login(page) == false) {
     console.log('login failed\naborting all process')
     await page.screenshot({ path: 'login_failure.png' });
     await browser.close();
   };
-  for (var i=0;i<=urls.length;i++){
+  for (var i=0;i<=urls.length;i++) {
     let url = 'https://'+ urls[i] + '/about/'
     await visit (page, url)
     let contents = await parse(page);
@@ -37,15 +37,13 @@ async function parse(page) {
     try {
       companyName = document.getElementsByClassName('t-24 t-black t-bold\
       full-width')[0].innerText;
-    }
-    catch {
+    } catch {
       companyName = null
     };
     let website = null
     try {
       website = document.getElementsByClassName('link-without-visited-state ember-view')[0].innerText;
-    }
-    catch {
+    } catch {
       website = null
     };
     return {'companyName':companyName,'website':website};
@@ -54,8 +52,10 @@ async function parse(page) {
 };
 
 async function visit (page, url) {
-  try{await page.goto(url, { waitUntil: 'networkidle2' });}
-  catch{}
+  try {
+    await page.goto(url, { waitUntil: 'networkidle2' });
+  } catch {
+  };
 };
 
 async function login (page) {
@@ -65,6 +65,9 @@ async function login (page) {
   await page.click('#organic-div > form > div.login__form_action_container > button');
   await page.waitForNavigation({waitUntil: 'load'});
   await new Promise(r => setTimeout(r, 5000));
-  if (page.url() == "https://www.linkedin.com/feed/") {return true;}
-  else {return false;};
+  if (page.url() == "https://www.linkedin.com/feed/") {
+    return true;
+  } else {
+    return false;
+  };
 };
