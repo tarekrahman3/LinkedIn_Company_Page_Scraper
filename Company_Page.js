@@ -10,7 +10,7 @@ urls = [
 
 async function main () {
   const browser = await puppeteer.launch();
-  const page = await browser.newPage()
+  const page = await browser.newPage();
   page.setViewport({width: 1024, height: 720});
   const json_file = []
   if (await login(page) == false) {
