@@ -7,7 +7,7 @@ from selenium.webdriver.common.by import By
 import pandas as pd
 import time
 
-out=[]
+out = []
 urls = pd.read_csv('import.csv').links.tolist()
 driver = uc.Chrome()
 time.sleep(2)
